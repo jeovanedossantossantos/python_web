@@ -1,5 +1,8 @@
 # Informações importande 
 
+Obs: para clonar o projeto ```git clone https://github.com/jeovanedossantossantos/python_web.git```
+
+
 1 - no terminal do vscode novo digite ```python -m venv ""nome da sua venv```
 
 2 - Para ativar a venv digite
