@@ -9,6 +9,6 @@ Obs: para clonar o projeto ```git clone https://github.com/jeovanedossantossanto
     - Linux: ```source env/bin/activate```
     - Windows: ```env\Scripts\activate``` ou ```env\Scripts\activate.bat``` ou ```source venv/Scripts/activate```
     
-3 - ```pip install -r .\requirements``` instala todas as dependencias, lembre de antes de executar esse comando criar uma venv para o projeto.
+3 - ```pip install -r ./requirements.txt``` instala todas as dependencias, lembre de antes de executar esse comando criar uma venv para o projeto.
 
 4 - ```python manage.py runserver``` executa a aplicação, abra no link que aparecer no seu terminal
