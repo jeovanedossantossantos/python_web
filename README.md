@@ -12,3 +12,9 @@ Obs: para clonar o projeto ```git clone https://github.com/jeovanedossantossanto
 3 - ```pip install -r ./requirements.txt``` instala todas as dependencias, lembre de antes de executar esse comando criar uma venv para o projeto.
 
 4 - ```python manage.py runserver``` executa a aplicação, abra no link que aparecer no seu terminal
+
+5 - ```python manage.py makemigrations --name user user```
+
+6 - ```python manage.py makemigrations --name tarefa tarefa```
+
+7 - ```python manage.py migrate```
