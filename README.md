@@ -40,3 +40,6 @@ Criando usuários e tarefas:
 16 - Pegar todas as tarefas de um user: ```tarefas = TarefaModel.objects.filter(user_id=user.id)```
 
 17 - Sair do python shell: ```exit()```
+
+<a href="https://docs.djangoproject.com/en/4.2/topics/db/models/">Docs Models</a>
+<a href="https://docs.djangoproject.com/en/4.2/topics/db/queries/">Making queries</a>
