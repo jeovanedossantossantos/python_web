@@ -18,3 +18,19 @@ Obs: para clonar o projeto ```git clone https://github.com/jeovanedossantossanto
 6 - ```python manage.py makemigrations --name tarefa tarefa```
 
 7 - ```python manage.py migrate```
+
+8 - Executa o python shell: ```python manage.py shell```
+9 - Importa o UserModel: ```from user.models import UserModel```
+10 - Importa o TarefaModel: ```from tarefa.models import TarefaModel```
+
+Criando usuários e tarefas:
+
+11 - ```user = UserModel(username="username", email="email")```
+12 - ```user.save()```
+13 - ```tarefa = TarefaModel(nome="tarefa",decricao="teste", user_id=user.id)```
+14 - ```tarefa.save()```
+
+15 - Buscar todos os usuários: ```users = UserModel.objects.all()```
+
+16 - Pegar todas as tarefas de um user: ```tarefas = TarefaModel.objects.filter(user_id=user.id)```
+17 - Sair do python shell: ```exit()```
