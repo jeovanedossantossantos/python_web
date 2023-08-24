@@ -41,5 +41,21 @@ Criando usuários e tarefas:
 
 17 - Sair do python shell: ```exit()```
 
-<a href="https://docs.djangoproject.com/en/4.2/topics/db/models/">Docs Models</a>
-<a href="https://docs.djangoproject.com/en/4.2/topics/db/queries/">Making queries</a>
+   - <a href="https://docs.djangoproject.com/en/4.2/topics/db/models/">Docs Models</a>
+
+   - <a href="https://docs.djangoproject.com/en/4.2/topics/db/queries/">Making queries</a>
+
+18 - Objeto a ser enviado na requisição feita pelo Insomnia
+```
+{
+
+
+      "username": "Seu username" ,
+       "email":"seu_username@gmail.com",
+       "password": "123",
+       "tipo":"root"
+ 
+    
+}
+
+```
