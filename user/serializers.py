@@ -39,7 +39,7 @@ class UserSerializer(serializers.ModelSerializer):
             'token'
         ]
     
-    def get_tokens(self, user):
+    def get_token(self, user):
         refresh = RefreshToken.for_user(user)
         refresh['user_id'] = str(user.id)
         refresh['username']= user.username
@@ -55,7 +55,7 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data['tipo'] ='client'
 
         user = super().create(validated_data)
-        user.token = self.get_tokens(user)
+        user.token = self.get_token(user)
         return user
     
 
