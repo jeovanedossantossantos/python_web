@@ -66,3 +66,13 @@ class UserListSerializer(serializers.ModelSerializer):
           fields=["id",
                   'username','email','tipo','suspenso']
           
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields=['username','email','password']
+    
+    username = serializers.CharField(required=False)
+    email = serializers.EmailField(required=False)
+    password = serializers.CharField(required=False)
+    
+   

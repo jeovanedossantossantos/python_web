@@ -1,13 +1,14 @@
 from django.http import Http404
 from django.shortcuts import render
 from .middlewares import Middlewares
-from .serializers import UserSerializer, CustomTokenObtainParirSerializer
+from .serializers import UserSerializer,UserUpdateSerializer, CustomTokenObtainParirSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import UserModel
-
+from .permissions import ValidToken
+from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -38,7 +39,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainParirSerializer
 
 class UserViewPrivate(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [ValidToken]
     queryset = UserModel.objects.all()
 
     def get_queryset(self,pk):
@@ -47,37 +48,41 @@ class UserViewPrivate(APIView):
         except UserModel.DoesNotExist:
             raise Http404
     
-    def put(self,request, id, format=None):
+    def put(self,request):
         user_id = Middlewares.decode(request.headers)
         tipo = self.get_queryset(user_id)
         data = UserSerializer(tipo).data
 
-        if(user_id == id):
-            menssagem = 'Changed not passwrod'
-            user = self.get_queryset(id)
-            userAnt = serializer = UserSerializer(user)
-            data = request.data
+        # if(user_id == id):
+        menssagem = 'Changed not passwrod'
+        user = self.get_queryset(user_id)
+        userAnt = serializer = UserSerializer(user)
+        data = request.data
 
-            try:
+        try:
 
-                if(user.check_password(data['password_back'])):
-                    user.set_password(data['password'])
-                    menssagem= "Changed password"
-            except:
-                menssagem= 'Changed not passwrod'
-            
-            serializer = UserSerializer(user,data=data)
+            if(data["password"] and user.check_password(data['password_back'])):
+                user.set_password(make_password(data['password']))
+                data['password']=make_password(data['password'])
+                menssagem= "Changed password"
+        except:
+            menssagem= 'Changed not passwrod'
+            print(user.password)
+        
+        
+        
+        serializer = UserUpdateSerializer(user,data=data)
 
-            if serializer.is_valid():
-                serializer.save()
+        if serializer.is_valid():
+            serializer.save()
 
-                return Response({
-                    "detail": serializer.data, "menssagem":menssagem
-                },status=200)
-            
-            return Response(serializer.error, status=404)
-        else:
-            return Response({"detail":"Não autorizado!"})
+            return Response({
+                "detail": "Atulizado com sucesso!!", "menssagem":menssagem
+            },status=200)
+        
+        return Response(serializer.error, status=404)
+    # else:
+    #     return Response({"detail":"Não autorizado!"})
 
 
     

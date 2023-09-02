@@ -1,6 +1,9 @@
 asgiref==3.7.2
 Django==3.2.20
 djangorestframework==3.14.0
+djangorestframework-simplejwt==5.2.2
+PyJWT==2.8.0
 pytz==2023.3
+rest-framework-simplejwt==0.0.2
 sqlparse==0.4.4
-typing-extensions==4.7.1
+typing_extensions==4.7.1

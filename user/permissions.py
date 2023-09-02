@@ -12,14 +12,16 @@ class IsNotSuspended(permissions.BasePermission):
     
 
 def validate_token(token):
-
+    
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
-        user = UserModel.objects.filter(user=payload['user_id']).first()
+        user = UserModel.objects.filter(id=payload['user_id']).first()
+    
         if not user:
             return False
         
         user.refresh_from_db()
+        return user
     except Exception as e:
         return False
 
@@ -28,7 +30,7 @@ def has_user_permission(user, path):
     return str(user.id) == user_id and not user.is_blocked
 
 class ValidToken(permissions.BasePermission):
-    def has_permission(self, request, path):
+    def has_permission(self, request, view):
 
         token = request.headers.get('token')
         user = validate_token(token)
