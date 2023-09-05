@@ -49,7 +49,7 @@ class ValidAdmin(permissions.BasePermission):
         try:
             token = request.headers.get('token')
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
-            user = UserModel.objects.filter(user=payload['user_id'],tipo="root").first()
+            user = UserModel.objects.filter(id=payload['user_id'],tipo="root").first()
             if not user:
                 return False
             

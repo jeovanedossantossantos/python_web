@@ -1,29 +1,32 @@
 from django.http import Http404
 from django.shortcuts import render
 from .middlewares import Middlewares
-from .serializers import UserSerializer,UserUpdateSerializer, CustomTokenObtainParirSerializer
+from .serializers import UserSerializer,UserUpdateSerializer,UserListSerializer, CustomTokenObtainParirSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import UserModel
-from .permissions import ValidToken
+from .permissions import ValidToken,ValidAdmin
 from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [ValidToken]
 
     def post(self,request):
+        
         refresh_token=request.data.get('refresh_token')
 
         if refresh_token:
             try:
                 token = RefreshToken(refresh_token)
                 token.blacklist()
+                print(token)
                 return Response({'detail':"Logout realizado com sucesso!"},status=200)
             except Exception as e:
+                print(e)
                 return Response({'detail':"Error ao fazer logout!"},status=400)
         
         return Response({'detail':"O token de autenticação (refresh_token) é necessario para fazer o logout"},status=400)
@@ -67,7 +70,8 @@ class UserViewPrivate(APIView):
                 menssagem= "Changed password"
         except:
             menssagem= 'Changed not passwrod'
-            print(user.password)
+            data["password"]=user.password
+            # print(user.password)
         
         
         
@@ -85,4 +89,37 @@ class UserViewPrivate(APIView):
     #     return Response({"detail":"Não autorizado!"})
 
 
+class AdminView(APIView):
+    permission_classes = [ValidToken,ValidAdmin]
+    queryset = UserModel.objects.all()
+
+    def get_object(self, pk,tipo):
+        try:
+            return self.queryset.get(pk=pk,tipo=tipo)
+        except UserModel.DoesNotExist:
+            raise Http404
     
+
+    def get(self,request,id=None):
+
+        if id is not None:
+            user = self.get_object(id,tipo="client")
+            serializer = UserListSerializer(user)
+        
+        else:
+            users = self.queryset.filter(tipo="client")
+            serializer = UserListSerializer(users,many=True)
+        
+        return Response(serializer.data)
+
+    def patch(self,request,id=None):
+
+        user=self.get_object(id,tipo="client")
+        serializer = UserSerializer(user, data=request.data,partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            serializer = UserSerializer(serializer.data)
+
+            return Response(serializer.data,status=200)
+        return Response(serializer.errors, status=400)
