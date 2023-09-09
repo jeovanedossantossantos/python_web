@@ -4,7 +4,6 @@ from .middlewares import Middlewares
 from .serializers import UserSerializer,UserUpdateSerializer,UserListSerializer, CustomTokenObtainParirSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import UserModel
 from .permissions import ValidToken,ValidAdmin
