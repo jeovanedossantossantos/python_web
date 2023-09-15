@@ -73,7 +73,7 @@ class TarefaView(APIView):
 
         serializer = TarefaSerializer(tarefa)
 
-        if serializer.data['dalete']:
+        if serializer.data['delete']:
             return Response({"menssage":"Deletado com sucesso!!"},status=200)
         
         return Response({"menssage":"Algo deu errado ao deletar!!"},status=400)

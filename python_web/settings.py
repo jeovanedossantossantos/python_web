@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tarefa',
-    'user'
+    'user',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -50,9 +51,45 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware"
 ]
 
 ROOT_URLCONF = 'python_web.urls'
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS =True
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000"
+]
+CORS_ALLOW_ORIGINS = [
+    "http://localhost:3000"
+]
+
+CORS_ALLOW_ORIGINS_REGEXES = [
+    "http://localhost:3000"
+]
+
+CORS_ALLOW_HEADERS = [
+'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'token',
+]
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    "PATCH",
+    "GET",
+    "PUT"
+    
+    # Outros métodos permitidos, se necessário
+]
 
 TEMPLATES = [
     {
